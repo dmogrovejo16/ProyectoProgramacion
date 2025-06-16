@@ -23,8 +23,8 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 	}
 	
 	
-	FILE* archivo = fopen("multas.txt", "r");
-	 if (archivo!=NULL){
+	FILE* archivo = fopen("multas.txt", "r"); //Abrimos archivo de las placas ocn multas
+	 if (archivo!=NULL){ //Verificamos que se haya podido abi=rir
 		fscanf(archivo, "%d", &total);
 		 for (int i = 0; i<total; i++){
 			fscanf(archivo, "%s", placaMulta[i]);
@@ -33,7 +33,7 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 		 printf("ERROR: Archivo de base de multas no se puedo abrir. \n");
 	 }
 	fclose(archivo);
-	 for (int i = 0; i<total; i++){
+	 for (int i = 0; i<total; i++){ //Comparar si la placa ingresada esta en el archivo
 		 if (strcmp(placa,placaMulta[i])==0){
 			 printf("ALERTA: El vehiculo no se puede matriculas porque cuenta con multas sin pagar. \n");
 			 totalMatricula=0;
@@ -42,7 +42,7 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 	 } 
 	 
 	 do {
-		 printf("Ingrese el cilindraje del vehiculo: ");
+		 printf("Ingrese el cilindraje del vehiculo: "); //Solicitamos cilindraje con validaciones
 		 scanf("%s", verificarCilindraje);
 		 
 		 if (strspn(verificarCilindraje, "0123456789.,") != strlen(verificarCilindraje)) {
@@ -52,7 +52,7 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 	 } while (strspn(verificarCilindraje, "0123456789") != strlen(verificarCilindraje));	
 	 cilindraje = atof(verificarCilindraje);
 	
-	 if (cilindraje <=1.5){
+	 if (cilindraje <=1.5){ //Calculamos impuesto por cilindraje
 		 impuestoCilindraje=0;
 	 }else if(cilindraje >1.5 && cilindraje<=2){
 		 impuestoCilindraje=55;
@@ -65,7 +65,7 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 	 }
 	 
 	 
-	 if (avaluo <=4000){
+	 if (avaluo <=4000){ //Calculamos impuesto por avaluo
 		 impuestoAvaluo=20;
 	 }else if(cilindraje >4000&& cilindraje<=8000){
 		 impuestoAvaluo=60;
@@ -78,7 +78,7 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 	 }
 	 
 	 
-	 if(placa[strlen(placa)-1]=='1' ){
+	 if(placa[strlen(placa)-1]=='1' ){ //Definimos el mes correspondiente para la matricula
 		 mesCorrespondiente = 2;
 	 }else if(placa[strlen(placa)-1]=='2' ){
 		 mesCorrespondiente = 3;
