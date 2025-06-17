@@ -6,9 +6,9 @@
 
 
 
-float calcularMatricula (char placa[], float avaluo, int anio, int edad, int revisiones) {
+float calcularMatricula (char placa[], float avaluo, int anio, int edad, int revisiones, int tipo) {
 	int total, mesCorrespondiente, contador;
-	float tasaFija = 25.00, impuesto = avaluo * 0.0015, totalMatricula, valor, cilindraje, impuestoCilindraje,  impuestoAvaluo, impuestoMes, impuestoRevisiones, descuentoEdad;
+	float tasaFija, impuesto = avaluo * 0.0015, totalMatricula, valor, cilindraje, impuestoCilindraje,  impuestoAvaluo, impuestoMes, impuestoRevisiones, descuentoEdad;
 	int anioActual = 2025, antiguedad = anioActual - anio;
 	char placaMulta[100][10], verificarCilindraje[5];
 	
@@ -102,6 +102,25 @@ float calcularMatricula (char placa[], float avaluo, int anio, int edad, int rev
 		 mesCorrespondiente = 0;
 	 }
 	 
+	 switch(tipo){
+	 case 1:
+		 tasaFija=25;
+		 break;
+	 case 2:
+		 tasaFija=18;
+		 break;
+	 case 3:
+		 tasaFija=41;
+		 break;
+	 case 4:
+		 tasaFija=35;
+		 break;
+	 case 5:
+		 tasaFija=15;
+		 break;
+	 default:
+		 printf("Error identificando el tipo de vehiculo.\n");
+	 }
 	 if(mes > mesCorrespondiente){ //Verificamos que no haya pasado la fecha
 		 
 		 for(int i=1; i<=(mes - mesCorrespondiente); i++){

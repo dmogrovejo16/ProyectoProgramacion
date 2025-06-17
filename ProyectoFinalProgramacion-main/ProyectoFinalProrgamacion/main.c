@@ -34,8 +34,8 @@ void convertirAMayusculas(char *cadena) {
 
 // Estructura que almacena los datos de un vehículo
 struct Vehiculo {
-	char placa[9], tipo[50];    // Placa (máx 8 + '\0') y tipo del vehículo
-	int cedula, anio, revisiones;
+	char placa[9];    // Placa (máx 8 + '\0') y tipo del vehículo
+	int cedula, anio, revisiones,  tipo;
 	int edadPropietario;
 	float avaluo;
 };
@@ -45,14 +45,14 @@ struct Vehiculo listaVehiculos[100];
 
 
 // Crea y almacena un vehículo
-struct Vehiculo crearVehiculo(char placa[8], int cedula, int anio, char tipo[50], float avaluo, int revisiones, int edad) {
+struct Vehiculo crearVehiculo(char placa[8], int cedula, int anio, int tipo, float avaluo, int revisiones, int edad) {
 	struct Vehiculo v;
 	
 	strcpy(v.placa, placa);
 	v.cedula = cedula;
 	v.edadPropietario = edad;
 	v.anio = anio;
-	strcpy(v.tipo, tipo);
+	v.tipo=tipo;
 	v.avaluo = avaluo;
 	v.revisiones = revisiones;
 	
@@ -63,8 +63,8 @@ struct Vehiculo crearVehiculo(char placa[8], int cedula, int anio, char tipo[50]
 
 // registro de vehiculos
 void registrarVehiculo() {
-	char placa[9], tipo[50], verificarCedula[10], verificarAnio[5],verificarEdad[3], verificarAvaluo[15], verificarRevisiones[2];
-	int cedula, anio, revisiones, edad, placaNueva;
+	char placa[9], verificarTipo[50], verificarCedula[10], verificarAnio[5],verificarEdad[3], verificarAvaluo[15], verificarRevisiones[2];
+	int cedula, anio,tipo, revisiones, edad, placaNueva;
 	float avaluo;
 	
 	// Validar placa
@@ -149,9 +149,25 @@ void registrarVehiculo() {
 	}
 	
 	// Ingresar tipo
-	printf("Por favor ingrese el tipo de vehiculo: ");
-	scanf(" %[^\n]s", tipo);  // Lee con espacios
-	
+	do{
+	printf("\n Por favor seleccione el tipo de vehiculo: ");
+	printf("\n+---------------MENU---------------+");
+	printf("\n| 1. Liviano                       |");
+	printf("\n| 2. Taxi, furgoneta o camioneta   |");
+	printf("\n| 3. Pesados                       |");
+	printf("\n| 4. Buses                         |");
+	printf("\n| 5. Motocicletas                  |");
+	printf("\n+----------------------------------+");
+	printf("\nIngrese su opcion: ");
+	scanf(" %[^\n]s", verificarTipo);  // Lee con espacios
+	if (strspn(verificarTipo, "0123456789") != strlen(verificarTipo)) {
+		printf("Error: solo se permiten numeros.\n");
+	}
+	if(atof(verificarTipo)<1||atof(verificarTipo)>5){
+		printf("Error: ingrese una opción válida.\n");
+	}
+	}while(strspn(verificarTipo, "0123456789") != strlen(verificarTipo) || atof(verificarTipo)<1||atof(verificarTipo)>5);
+	tipo = atof(verificarTipo);
 	// Validar avalúo
 	do {
 		printf("Ingrese el avaluo del vehiculo: ");
@@ -182,10 +198,9 @@ void registrarVehiculo() {
 	crearVehiculo(placa, cedula, anio, tipo, avaluo, revisiones, edad);
 	
 	// Crear vehículo y agregarlo a la lista
-	// Crear vehículo y agregarlo a la lista
 	struct Vehiculo nuevo = crearVehiculo(placa, cedula, anio, tipo, avaluo, revisiones, edad);
 
-	valorMatricula = calcularMatricula(placa, avaluo, anio, edad, revisiones);
+	valorMatricula = calcularMatricula(placa, avaluo, anio, edad, revisiones, tipo);
 	
 	if (valorMatricula==0){
 		return;
@@ -218,7 +233,7 @@ void registrarVehiculo() {
 		fprintf(archivo, "Cedula: %d\n", nuevo.cedula);
 		fprintf(archivo, "Edad del propietario: %d\n", nuevo.edadPropietario);
 		fprintf(archivo, "Anio: %d\n", nuevo.anio);
-		fprintf(archivo, "Tipo: %s\n", nuevo.tipo);
+		fprintf(archivo, "Tipo: %d\n", nuevo.tipo);
 		fprintf(archivo, "Avaluo: %.2f\n", nuevo.avaluo);
 		fprintf(archivo, "Revisiones: %d\n", nuevo.revisiones);
 		fprintf(archivo, "Valor a pagar matricula: %.2f\n", valorMatricula);

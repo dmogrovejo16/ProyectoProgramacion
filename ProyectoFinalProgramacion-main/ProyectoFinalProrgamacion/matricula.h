@@ -2,7 +2,7 @@
 #define MATRICULA_H
 
 // funciones
-float calcularMatricula( char placa [], float avaluo, int anio, int edad, int revisiones);
+float calcularMatricula( char placa [], float avaluo, int anio, int edad, int revisiones, int tipo);
 
 #endif 
 
